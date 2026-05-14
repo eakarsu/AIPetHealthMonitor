@@ -6,11 +6,29 @@ import Layout from './components/Layout';
 import PetsPage from './pages/PetsPage';
 import FeaturePage from './pages/FeaturePage';
 import AIFeaturePage from './pages/AIFeaturePage';
+import AIPredictivePage from './pages/AIPredictivePage';
 import EmergencyPage from './pages/EmergencyPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 import CalendarPage from './pages/CalendarPage';
 import SettingsPage from './pages/SettingsPage';
+import BacklogToolsPage from './pages/BacklogToolsPage';
 
+// // === Batch 06 Gaps & Frontend Mounts ===
+import CFAgenticWellnessMonitoringPage from './pages/CFAgenticWellnessMonitoringPage';
+import CFPhotoBasedHealthScreeningPage from './pages/CFPhotoBasedHealthScreeningPage';
+import CFEmergencyDecisionSupportPage from './pages/CFEmergencyDecisionSupportPage';
+import CFBreedAgeSpecificCareAutomationPage from './pages/CFBreedAgeSpecificCareAutomationPage';
+import CFVeterinaryCostNegotiationPage from './pages/CFVeterinaryCostNegotiationPage';
+import GapPetsWithoutGeneticPage from './pages/GapPetsWithoutGeneticPage';
+import GapMedicalHistoryWithoutHealthPage from './pages/GapMedicalHistoryWithoutHealthPage';
+import GapBackendCollapsesEverythingIntoCrudJsPage from './pages/GapBackendCollapsesEverythingIntoCrudJsPage';
+import GapNoVeterinaryClinicIntegrationMedicalRecordsIPage from './pages/GapNoVeterinaryClinicIntegrationMedicalRecordsIPage';
+import GapNoPharmacyIntegrationMedicationRefillsCostTrPage from './pages/GapNoPharmacyIntegrationMedicationRefillsCostTrPage';
+import GapNoBreedDatabaseBreedPage from './pages/GapNoBreedDatabaseBreedPage';
+import GapLimitedCommunityFeaturesPeerSupportExperiencePage from './pages/GapLimitedCommunityFeaturesPeerSupportExperiencePage';
+import GapNoNotificationsModuleGrep0Page from './pages/GapNoNotificationsModuleGrep0Page';
+import GapNoAuditLoggingGrep0Page from './pages/GapNoAuditLoggingGrep0Page';
+import GapNoWebhooksForClinicEventsPage from './pages/GapNoWebhooksForClinicEventsPage';
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -83,7 +101,29 @@ function App() {
           <Route path="/ai-health-report" element={<AIFeaturePage type="health-report" title="AI Health Report" icon="📋" />} />
           <Route path="/ai-emergency" element={<AIFeaturePage type="emergency-advice" title="AI Emergency Advice" icon="🚨" />} />
           <Route path="/ai-insurance" element={<AIFeaturePage type="insurance-advice" title="AI Insurance Advisor" icon="💰" />} />
+          <Route path="/ai-find-specialists" element={<AIFeaturePage type="find-specialists" title="Find Specialists" icon="🏥" />} />
+          <Route path="/ai-vaccination-schedule" element={<AIFeaturePage type="vaccination-schedule" title="AI Vaccination Schedule" icon="💉" />} />
+          <Route path="/ai-genetic-disease-risk" element={<AIPredictivePage type="genetic" />} />
+          <Route path="/ai-health-trend-detect" element={<AIPredictivePage type="trends" />} />
+          <Route path="/backlog-tools" element={<BacklogToolsPage />} />
           <Route path="*" element={<Navigate to="/" />} />
+        
+          {/* // === Batch 06 Gaps & Frontend Mounts === */}
+          <Route path="/cf-agentic-wellness-monitoring" element={<CFAgenticWellnessMonitoringPage />} />
+          <Route path="/cf-photo-based-health-screening" element={<CFPhotoBasedHealthScreeningPage />} />
+          <Route path="/cf-emergency-decision-support" element={<CFEmergencyDecisionSupportPage />} />
+          <Route path="/cf-breed-age-specific-care-automation" element={<CFBreedAgeSpecificCareAutomationPage />} />
+          <Route path="/cf-veterinary-cost-negotiation" element={<CFVeterinaryCostNegotiationPage />} />
+          <Route path="/gap-pets-without-genetic" element={<GapPetsWithoutGeneticPage />} />
+          <Route path="/gap-medical-history-without-health" element={<GapMedicalHistoryWithoutHealthPage />} />
+          <Route path="/gap-backend-collapses-everything-into-crud-js" element={<GapBackendCollapsesEverythingIntoCrudJsPage />} />
+          <Route path="/gap-no-veterinary-clinic-integration-medical-records-i" element={<GapNoVeterinaryClinicIntegrationMedicalRecordsIPage />} />
+          <Route path="/gap-no-pharmacy-integration-medication-refills-cost-tr" element={<GapNoPharmacyIntegrationMedicationRefillsCostTrPage />} />
+          <Route path="/gap-no-breed-database-breed" element={<GapNoBreedDatabaseBreedPage />} />
+          <Route path="/gap-limited-community-features-peer-support-experience" element={<GapLimitedCommunityFeaturesPeerSupportExperiencePage />} />
+          <Route path="/gap-no-notifications-module-grep-0" element={<GapNoNotificationsModuleGrep0Page />} />
+          <Route path="/gap-no-audit-logging-grep-0" element={<GapNoAuditLoggingGrep0Page />} />
+          <Route path="/gap-no-webhooks-for-clinic-events" element={<GapNoWebhooksForClinicEventsPage />} />
         </Routes>
       </Layout>
     </Router>

@@ -365,6 +365,7 @@ const LabResult = sequelize.define('LabResult', {
   status: { type: DataTypes.ENUM('normal', 'abnormal', 'critical') },
   followUp: { type: DataTypes.TEXT },
   cost: { type: DataTypes.DECIMAL(10, 2) },
+  aiInterpretation: { type: DataTypes.TEXT },
   notes: { type: DataTypes.TEXT }
 }, { tableName: 'lab_results', timestamps: true });
 

@@ -7,13 +7,21 @@ function createCrudRouter(Model, ownerField = 'petId') {
   const router = express.Router();
   router.use(auth);
 
-  // Get all records for a pet
+  // Get all records for a pet (with pagination ?page=1&limit=20)
   router.get('/pet/:petId', async (req, res) => {
     try {
       const pet = await Pet.findOne({ where: { id: req.params.petId, userId: req.user.id } });
       if (!pet) return res.status(404).json({ error: 'Pet not found' });
-      const records = await Model.findAll({ where: { petId: req.params.petId }, order: [['createdAt', 'DESC']] });
-      res.json(records);
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 20;
+      const offset = (page - 1) * limit;
+      const { count, rows } = await Model.findAndCountAll({
+        where: { petId: req.params.petId },
+        order: [['createdAt', 'DESC']],
+        limit,
+        offset
+      });
+      res.json({ records: rows, total: count, page, totalPages: Math.ceil(count / limit) });
     } catch (err) { res.status(500).json({ error: err.message }); }
   });
 

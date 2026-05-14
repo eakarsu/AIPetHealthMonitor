@@ -1,6 +1,13 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const path = require('path');
 require('dotenv').config({ path: require('path').join(__dirname, '../../.env') });
+
+if (!process.env.JWT_SECRET) {
+  console.error('FATAL: JWT_SECRET is not set. Exiting.');
+  process.exit(1);
+}
 
 const { sequelize, HealthRecord, BehaviorLog, NutritionPlan, Vaccination,
   Medication, Appointment, WeightLog, Activity, Symptom, Insurance, Grooming, HealthReport,
@@ -11,8 +18,10 @@ const createCrudRouter = require('./routes/crud');
 const app = express();
 const PORT = process.env.BACKEND_PORT || 3001;
 
-app.use(cors());
+app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
+app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:3000', credentials: true }));
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
@@ -242,7 +251,28 @@ async function start() {
     console.log('Database connected');
     await sequelize.sync({ alter: true });
     console.log('Tables synced');
-    app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
+    
+// === Custom Feature Mounts (batch_06) ===
+app.use('/api/cf-agentic-wellness-monitoring', require('./routes/customFeat01_AgenticWellnessMonitoring'));
+app.use('/api/cf-photo-based-health-screening', require('./routes/customFeat02_PhotoBasedHealthScreening'));
+app.use('/api/cf-emergency-decision-support', require('./routes/customFeat03_EmergencyDecisionSupport'));
+app.use('/api/cf-breedage-specific-care-automation', require('./routes/customFeat04_BreedageSpecificCareAutomation'));
+app.use('/api/cf-veterinary-cost-negotiation', require('./routes/customFeat05_VeterinaryCostNegotiation'));
+
+
+// === Batch 06 Gaps & Frontend Mounts ===
+app.use('/api/gap-pets-without-genetic', require('./routes/gapFeat_pets_without_genetic'));
+app.use('/api/gap-medical-history-without-health', require('./routes/gapFeat_medical_history_without_health'));
+app.use('/api/gap-backend-collapses-everything-into-crud-js', require('./routes/gapFeat_backend_collapses_everything_into_crud_js'));
+app.use('/api/gap-no-veterinary-clinic-integration-medical-records-i', require('./routes/gapFeat_no_veterinary_clinic_integration_medical_records_i'));
+app.use('/api/gap-no-pharmacy-integration-medication-refills-cost-tr', require('./routes/gapFeat_no_pharmacy_integration_medication_refills_cost_tr'));
+app.use('/api/gap-no-breed-database-breed', require('./routes/gapFeat_no_breed_database_breed'));
+app.use('/api/gap-limited-community-features-peer-support-experience', require('./routes/gapFeat_limited_community_features_peer_support_experience'));
+app.use('/api/gap-no-notifications-module-grep-0', require('./routes/gapFeat_no_notifications_module_grep_0'));
+app.use('/api/gap-no-audit-logging-grep-0', require('./routes/gapFeat_no_audit_logging_grep_0'));
+app.use('/api/gap-no-webhooks-for-clinic-events', require('./routes/gapFeat_no_webhooks_for_clinic_events'));
+
+app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
   } catch (err) {
     console.error('Failed to start:', err);
     process.exit(1);

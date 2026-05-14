@@ -4,7 +4,7 @@ import { getPets, healthRecordsApi, behaviorsApi, nutritionApi, vaccinationsApi,
   insuranceApi, groomingApi, healthReportsApi, allergiesApi, trainingApi,
   sleepApi, dentalApi, parasitePreventionApi, travelApi, milestonesApi,
   documentsApi, expensesApi, feedingApi, labResultsApi, socializationApi,
-  suppliesApi } from '../services/api';
+  suppliesApi, aiInterpretLabResult } from '../services/api';
 import Toast from '../components/Toast';
 
 const apiMap = {
@@ -385,6 +385,9 @@ function FeaturePage({ feature, title, icon }) {
   const [editId, setEditId] = useState(null);
   const [toast, setToast] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
 
   const api = apiMap[feature];
   const config = fieldConfigs[feature];
@@ -400,13 +403,23 @@ function FeaturePage({ feature, title, icon }) {
     if (!selectedPet) return;
     setLoading(true);
     try {
-      const r = await api.getAll(selectedPet.id);
-      setRecords(r.data);
+      const r = await api.getAll(selectedPet.id, page);
+      // Support both paginated and legacy array responses
+      const data = r.data;
+      if (Array.isArray(data)) {
+        setRecords(data);
+        setTotal(data.length);
+        setTotalPages(1);
+      } else {
+        setRecords(data.records || []);
+        setTotal(data.total || 0);
+        setTotalPages(data.totalPages || 1);
+      }
     } catch (err) {
       setRecords([]);
     }
     setLoading(false);
-  }, [selectedPet, api]);
+  }, [selectedPet, api, page]);
 
   useEffect(() => { loadRecords(); }, [loadRecords]);
 
@@ -523,6 +536,15 @@ function FeaturePage({ feature, title, icon }) {
           </div>
         )}
         {loading && <div className="empty-state"><div className="ai-loading"><div className="spinner"></div><p>Loading...</p></div></div>}
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 12, padding: '16px 24px', borderTop: '1px solid var(--gray-100)' }}>
+            <button className="btn btn-secondary btn-sm" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>Previous</button>
+            <span style={{ fontSize: 13, color: 'var(--gray-500)' }}>Page {page} of {totalPages} ({total} total)</span>
+            <button className="btn btn-secondary btn-sm" onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}>Next</button>
+          </div>
+        )}
       </div>
 
       {/* Detail Modal */}
@@ -555,10 +577,30 @@ function FeaturePage({ feature, title, icon }) {
                   <div className="ai-response-content" dangerouslySetInnerHTML={{ __html: formatAIContent(selected.details) }} />
                 </div>
               )}
+              {selected.aiInterpretation && feature === 'lab-results' && (
+                <div className="ai-response" style={{ marginTop: 16 }}>
+                  <div style={{ fontWeight: 600, marginBottom: 8, color: 'var(--primary)' }}>AI Interpretation</div>
+                  <div className="ai-response-content" dangerouslySetInnerHTML={{ __html: formatAIContent(
+                    (() => { try { const p = JSON.parse(selected.aiInterpretation); return p.overall_assessment || JSON.stringify(p, null, 2); } catch(e) { return selected.aiInterpretation; } })()
+                  ) }} />
+                </div>
+              )}
             </div>
             <div className="detail-actions">
               <button className="btn btn-primary btn-sm" onClick={() => openEdit(selected)}>✏️ Edit</button>
               <button className="btn btn-danger btn-sm" onClick={() => handleDelete(selected.id)}>🗑️ Delete</button>
+              {feature === 'lab-results' && (
+                <button className="btn btn-info btn-sm" onClick={async () => {
+                  setToast({ type: 'info', msg: 'Interpreting lab result with AI...' });
+                  try {
+                    const r = await aiInterpretLabResult(selected.id);
+                    setToast({ type: 'success', msg: 'AI interpretation complete!' });
+                    setSelected({ ...selected, aiInterpretation: JSON.stringify(r.data.parsed) });
+                  } catch (err) {
+                    setToast({ type: 'error', msg: 'Failed to interpret lab result' });
+                  }
+                }}>🤖 Interpret with AI</button>
+              )}
             </div>
           </div>
         </div>
