@@ -35,7 +35,7 @@ export const deletePet = (id) => api.delete(`/pets/${id}`);
 
 // Generic CRUD for pet-related resources
 const createCrudApi = (resource) => ({
-  getAll: (petId) => api.get(`/${resource}/pet/${petId}`),
+  getAll: (petId, page = 1, limit = 20) => api.get(`/${resource}/pet/${petId}`, { params: { page, limit } }),
   getOne: (id) => api.get(`/${resource}/${id}`),
   create: (data) => api.post(`/${resource}`, data),
   update: (id, data) => api.put(`/${resource}/${id}`, data),
@@ -79,11 +79,28 @@ export const deleteEmergencyContact = (id) => api.delete(`/emergency-contacts/${
 
 // AI
 export const aiSymptomCheck = (data) => api.post('/ai/symptom-check', data);
+export const aiSymptomCheckPhoto = (formData) => api.post('/ai/symptom-check-photo', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
 export const aiDietRecommendation = (data) => api.post('/ai/diet-recommendation', data);
 export const aiBehaviorAnalysis = (data) => api.post('/ai/behavior-analysis', data);
 export const aiHealthReport = (data) => api.post('/ai/health-report', data);
 export const aiEmergencyAdvice = (data) => api.post('/ai/emergency-advice', data);
 export const aiInsuranceAdvice = (data) => api.post('/ai/insurance-advice', data);
+export const aiInterpretLabResult = (labResultId) => api.post('/ai/interpret-lab-result', { labResultId });
+export const aiFindSpecialists = (data) => api.post('/ai/find-specialists', data);
+export const aiVaccinationSchedule = (data) => api.post('/ai/vaccination-schedule', data);
+
+// Apply pass 5 backlog endpoints
+export const aiVetCostNegotiate = (data) => api.post('/ai/vet-cost-negotiate', data);
+export const aiAgenticWellness = (data) => api.post('/ai/agentic-wellness', data);
+export const aiEmergencyTriage = (data) => api.post('/ai/emergency-triage', data);
+export const aiPhotoRegression = (formData) => api.post('/ai/photo-regression', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+export const aiVetClinicStatus = () => api.get('/ai/integrations/vet-clinic/status');
+export const aiPharmacyStatus = () => api.get('/ai/integrations/pharmacy/status');
+export const aiWearableStatus = () => api.get('/ai/integrations/wearable/status');
+export const communityListTopics = () => api.get('/ai/community/topics');
+export const communityCreateTopic = (data) => api.post('/ai/community/topics', data);
+export const communityListPosts = (topicId) => api.get(`/ai/community/topics/${topicId}/posts`);
+export const communityCreatePost = (topicId, data) => api.post(`/ai/community/topics/${topicId}/posts`, data);
 
 // Analytics
 export const getAnalyticsSummary = () => api.get('/analytics/summary');

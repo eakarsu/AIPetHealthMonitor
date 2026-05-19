@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { getPets, aiSymptomCheck, aiDietRecommendation, aiBehaviorAnalysis,
-  aiHealthReport, aiEmergencyAdvice, aiInsuranceAdvice } from '../services/api';
+import { getPets, aiSymptomCheck, aiSymptomCheckPhoto, aiDietRecommendation, aiBehaviorAnalysis,
+  aiHealthReport, aiEmergencyAdvice, aiInsuranceAdvice, aiFindSpecialists, aiVaccinationSchedule } from '../services/api';
 import Toast from '../components/Toast';
 
 const aiApis = {
@@ -10,6 +10,8 @@ const aiApis = {
   'health-report': aiHealthReport,
   'emergency-advice': aiEmergencyAdvice,
   'insurance-advice': aiInsuranceAdvice,
+  'find-specialists': aiFindSpecialists,
+  'vaccination-schedule': aiVaccinationSchedule,
 };
 
 const formConfigs = {
@@ -37,6 +39,12 @@ const formConfigs = {
     { name: 'budget', label: 'Monthly Budget ($)', type: 'text', placeholder: 'e.g., $30-50' },
     { name: 'concerns', label: 'Main Concerns', type: 'textarea', placeholder: 'e.g., Breed-specific conditions, comprehensive coverage...' },
   ],
+  'find-specialists': [
+    { name: 'condition', label: 'Condition or Concern', type: 'textarea', required: true, placeholder: 'e.g., Heart murmur, skin allergies, orthopedic issues...' },
+    { name: 'location', label: 'Your Location', type: 'text', required: true, placeholder: 'e.g., Austin, TX' },
+    { name: 'urgency', label: 'Urgency', type: 'select', options: ['routine', 'soon', 'urgent', 'emergency'] },
+  ],
+  'vaccination-schedule': [],
 };
 
 function formatAIContent(text) {
@@ -56,6 +64,111 @@ function formatAIContent(text) {
   return html;
 }
 
+function renderSpecialistResult(parsed) {
+  if (!parsed || parsed.raw) return null;
+  return (
+    <div>
+      {parsed.specialist_types?.length > 0 && (
+        <div style={{ marginBottom: 16 }}>
+          <h3 style={{ color: '#4f46e5', marginBottom: 8 }}>Specialist Types Needed</h3>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+            {parsed.specialist_types.map((s, i) => (
+              <span key={i} style={{ background: '#ede9fe', color: '#5b21b6', padding: '4px 10px', borderRadius: 20, fontSize: 13 }}>{s}</span>
+            ))}
+          </div>
+        </div>
+      )}
+      {parsed.how_to_find?.length > 0 && (
+        <div style={{ marginBottom: 16 }}>
+          <h3 style={{ color: '#4f46e5', marginBottom: 8 }}>How to Find One</h3>
+          <ul style={{ paddingLeft: 20, lineHeight: 2 }}>
+            {parsed.how_to_find.map((h, i) => <li key={i}>{h}</li>)}
+          </ul>
+        </div>
+      )}
+      {parsed.questions_to_ask?.length > 0 && (
+        <div style={{ marginBottom: 16 }}>
+          <h3 style={{ color: '#4f46e5', marginBottom: 8 }}>Questions to Ask</h3>
+          <ul style={{ paddingLeft: 20, lineHeight: 2 }}>
+            {parsed.questions_to_ask.map((q, i) => <li key={i}>{q}</li>)}
+          </ul>
+        </div>
+      )}
+      {parsed.red_flags_requiring_er?.length > 0 && (
+        <div style={{ marginBottom: 16, background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 8, padding: 14 }}>
+          <h3 style={{ color: '#b91c1c', marginBottom: 8 }}>Red Flags - Go to ER Now</h3>
+          <ul style={{ paddingLeft: 20, lineHeight: 2 }}>
+            {parsed.red_flags_requiring_er.map((r, i) => <li key={i} style={{ color: '#991b1b' }}>{r}</li>)}
+          </ul>
+        </div>
+      )}
+      {parsed.estimated_cost_range && (
+        <div style={{ marginBottom: 12, padding: '10px 14px', background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 8 }}>
+          <strong>Estimated Cost Range: </strong>{parsed.estimated_cost_range}
+        </div>
+      )}
+      {parsed.telehealth_options?.length > 0 && (
+        <div style={{ marginBottom: 16 }}>
+          <h3 style={{ color: '#4f46e5', marginBottom: 8 }}>Telehealth Options</h3>
+          <ul style={{ paddingLeft: 20, lineHeight: 2 }}>
+            {parsed.telehealth_options.map((t, i) => <li key={i}>{t}</li>)}
+          </ul>
+        </div>
+      )}
+      {parsed.emergency_resources && (
+        <div style={{ padding: '10px 14px', background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 8 }}>
+          <strong>Emergency Resources: </strong>{parsed.emergency_resources}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function renderVaccinationScheduleResult(parsed) {
+  if (!parsed || parsed.raw) return null;
+  return (
+    <div>
+      {parsed.schedule_summary && (
+        <div style={{ marginBottom: 16, padding: '10px 14px', background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: 8 }}>
+          <strong>Summary: </strong>{parsed.schedule_summary}
+        </div>
+      )}
+      {parsed.overdue_vaccines?.length > 0 && (
+        <div style={{ marginBottom: 16, background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 8, padding: 14 }}>
+          <h3 style={{ color: '#b91c1c', marginBottom: 8 }}>Overdue Vaccines</h3>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+            {parsed.overdue_vaccines.map((v, i) => (
+              <span key={i} style={{ background: '#fee2e2', color: '#991b1b', padding: '4px 10px', borderRadius: 20, fontSize: 13 }}>{v}</span>
+            ))}
+          </div>
+        </div>
+      )}
+      {parsed.recommended_vaccines?.length > 0 && (
+        <div style={{ marginBottom: 16 }}>
+          <h3 style={{ color: '#4f46e5', marginBottom: 10 }}>Recommended Vaccines</h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {parsed.recommended_vaccines.map((v, i) => (
+              <div key={i} style={{ background: 'var(--gray-50)', borderRadius: 8, padding: '12px 16px', border: '1px solid var(--gray-100)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                  <strong style={{ fontSize: 15 }}>{v.name}</strong>
+                  <span style={{ fontSize: 12, background: v.importance === 'core' ? '#dcfce7' : '#fef9c3', color: v.importance === 'core' ? '#166534' : '#854d0e', padding: '2px 8px', borderRadius: 12 }}>{v.type || v.importance}</span>
+                </div>
+                {v.next_due_date && <div style={{ fontSize: 13, color: '#6b7280' }}>Next due: {v.next_due_date} &bull; {v.frequency}</div>}
+                {v.reason && <div style={{ fontSize: 13, color: '#374151', marginTop: 4 }}>{v.reason}</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      {parsed.vet_visit_frequency && (
+        <div style={{ padding: '10px 14px', background: '#f5f3ff', border: '1px solid #ddd6fe', borderRadius: 8 }}>
+          <strong>Recommended Vet Visit Frequency: </strong>{parsed.vet_visit_frequency}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function AIFeaturePage({ type, title, icon }) {
   const [pets, setPets] = useState([]);
   const [selectedPet, setSelectedPet] = useState(null);
@@ -63,6 +176,9 @@ function AIFeaturePage({ type, title, icon }) {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState(null);
+  const [photoFile, setPhotoFile] = useState(null);
+  const [photoLoading, setPhotoLoading] = useState(false);
+  const [photoResult, setPhotoResult] = useState(null);
 
   const formFields = formConfigs[type];
   const apiCall = aiApis[type];
@@ -98,7 +214,7 @@ function AIFeaturePage({ type, title, icon }) {
       <div className="page-header">
         <div>
           <h1>{icon} {title}</h1>
-          <p>AI-powered analysis using Claude Haiku 4.5 via OpenRouter</p>
+          <p>AI-powered analysis using Claude 3.5 Sonnet via OpenRouter</p>
         </div>
       </div>
 
@@ -164,6 +280,40 @@ function AIFeaturePage({ type, title, icon }) {
                   {loading ? '🔄 Analyzing...' : `🤖 ${type === 'health-report' ? 'Generate Report' : 'Analyze with AI'}`}
                 </button>
               </form>
+
+              {/* Photo Upload for Symptom Check */}
+              {type === 'symptom-check' && (
+                <div style={{ marginTop: 20, paddingTop: 20, borderTop: '1px solid var(--gray-100)' }}>
+                  <div style={{ fontWeight: 600, marginBottom: 12, fontSize: 14 }}>📷 Photo Symptom Check (Vision AI)</div>
+                  <div className="form-group">
+                    <label>Upload Pet Photo</label>
+                    <input type="file" accept="image/*" onChange={e => setPhotoFile(e.target.files[0])} style={{ fontSize: 13 }} />
+                  </div>
+                  {photoFile && (
+                    <div style={{ marginBottom: 12 }}>
+                      <img src={URL.createObjectURL(photoFile)} alt="Preview" style={{ width: '100%', borderRadius: 8, maxHeight: 200, objectFit: 'cover' }} />
+                    </div>
+                  )}
+                  <button className="btn btn-info btn-full" disabled={!photoFile || photoLoading}
+                    onClick={async () => {
+                      if (!selectedPet || !photoFile) return;
+                      setPhotoLoading(true);
+                      setPhotoResult(null);
+                      const fd = new FormData();
+                      fd.append('photo', photoFile);
+                      fd.append('petId', selectedPet.id);
+                      try {
+                        const r = await aiSymptomCheckPhoto(fd);
+                        setPhotoResult(r.data);
+                      } catch (err) {
+                        setToast({ type: 'error', msg: err.response?.data?.error || 'Photo analysis failed' });
+                      }
+                      setPhotoLoading(false);
+                    }}>
+                    {photoLoading ? '🔄 Analyzing Photo...' : '📷 Analyze Photo with Vision AI'}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -174,7 +324,7 @@ function AIFeaturePage({ type, title, icon }) {
                 <div className="ai-loading" style={{ padding: 60 }}>
                   <div className="spinner"></div>
                   <p style={{ fontWeight: 600 }}>AI is analyzing...</p>
-                  <p style={{ fontSize: 12, color: 'var(--gray-400)' }}>Using Claude Haiku 4.5 via OpenRouter</p>
+                  <p style={{ fontSize: 12, color: 'var(--gray-400)' }}>Using Claude 3.5 Sonnet via OpenRouter</p>
                 </div>
               </div>
             )}
@@ -195,7 +345,9 @@ function AIFeaturePage({ type, title, icon }) {
                 ) : (
                   <div style={{ padding: 24 }}>
                     <div className="ai-response">
-                      <div className="ai-response-content" dangerouslySetInnerHTML={{ __html: formatAIContent(result.content) }} />
+                      {type === 'find-specialists' && result.parsed ? renderSpecialistResult(result.parsed) :
+                       type === 'vaccination-schedule' && result.parsed ? renderVaccinationScheduleResult(result.parsed) :
+                      <div className="ai-response-content" dangerouslySetInnerHTML={{ __html: formatAIContent(result.content) }} />}
                       {result.usage && (
                         <div className="ai-response-meta">
                           <span>Tokens: {result.usage.total_tokens?.toLocaleString()}</span>
@@ -219,6 +371,56 @@ function AIFeaturePage({ type, title, icon }) {
                 <div className="empty-state">
                   <div className="empty-icon">{icon}</div>
                   <p>{formFields.length > 0 ? 'Fill in the form and click analyze to get AI-powered insights' : 'Click the button to generate an AI report'}</p>
+                </div>
+              </div>
+            )}
+
+            {/* Photo Analysis Result */}
+            {photoResult && type === 'symptom-check' && (
+              <div className="data-section" style={{ marginTop: 16 }}>
+                <div className="data-header">
+                  <h2>📷 Photo Analysis Results</h2>
+                </div>
+                <div style={{ padding: 24 }}>
+                  {photoResult.parsed && !photoResult.parsed.raw ? (
+                    <div>
+                      {photoResult.parsed.urgency_score !== undefined && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+                          <span style={{ fontWeight: 700 }}>Urgency:</span>
+                          <span className={`badge badge-${photoResult.parsed.urgency_score >= 7 ? 'severe' : photoResult.parsed.urgency_score >= 4 ? 'moderate' : 'low'}`}>
+                            {photoResult.parsed.urgency_score}/10
+                          </span>
+                          <span>{photoResult.parsed.see_vet_urgency}</span>
+                        </div>
+                      )}
+                      {photoResult.parsed.symptoms_observed?.length > 0 && (
+                        <div style={{ marginBottom: 12 }}>
+                          <strong>Symptoms Observed:</strong>
+                          <ul style={{ marginTop: 6, paddingLeft: 20 }}>
+                            {photoResult.parsed.symptoms_observed.map((s, i) => <li key={i}>{s}</li>)}
+                          </ul>
+                        </div>
+                      )}
+                      {photoResult.parsed.possible_conditions?.length > 0 && (
+                        <div style={{ marginBottom: 12 }}>
+                          <strong>Possible Conditions:</strong>
+                          <ul style={{ marginTop: 6, paddingLeft: 20 }}>
+                            {photoResult.parsed.possible_conditions.map((c, i) => <li key={i}>{c}</li>)}
+                          </ul>
+                        </div>
+                      )}
+                      {photoResult.parsed.immediate_actions?.length > 0 && (
+                        <div style={{ marginBottom: 12 }}>
+                          <strong>Immediate Actions:</strong>
+                          <ul style={{ marginTop: 6, paddingLeft: 20 }}>
+                            {photoResult.parsed.immediate_actions.map((a, i) => <li key={i}>{a}</li>)}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="ai-response-content" dangerouslySetInnerHTML={{ __html: formatAIContent(photoResult.content) }} />
+                  )}
                 </div>
               </div>
             )}

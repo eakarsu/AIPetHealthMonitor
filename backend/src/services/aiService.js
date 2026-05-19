@@ -14,7 +14,7 @@ async function askAI(prompt, systemPrompt = 'You are a veterinary AI assistant. 
         'X-Title': 'AI Pet Health Monitor'
       },
       body: JSON.stringify({
-        model: process.env.OPENROUTER_MODEL || 'anthropic/claude-haiku-4.5',
+        model: process.env.OPENROUTER_MODEL || 'anthropic/claude-3-5-sonnet-20241022',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: prompt }
