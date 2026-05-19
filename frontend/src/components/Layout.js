@@ -7,6 +7,7 @@ const navItems = [
   { path: '/pets', label: 'My Pets', icon: '🐾' },
   { path: '/analytics', label: 'Analytics', icon: '📈' },
   { path: '/calendar', label: 'Calendar', icon: '📅' },
+  { path: '/custom-views', label: 'Pet Views', icon: '🐾' },
   { section: 'Health & Care' },
   { path: '/health-records', label: 'Health Records', icon: '🏥' },
   { path: '/vaccinations', label: 'Vaccinations', icon: '💉' },

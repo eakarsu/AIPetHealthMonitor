@@ -272,6 +272,12 @@ app.use('/api/gap-no-notifications-module-grep-0', require('./routes/gapFeat_no_
 app.use('/api/gap-no-audit-logging-grep-0', require('./routes/gapFeat_no_audit_logging_grep_0'));
 app.use('/api/gap-no-webhooks-for-clinic-events', require('./routes/gapFeat_no_webhooks_for_clinic_events'));
 
+// === Custom Views (mounted before any 404 handler) ===
+app.use('/api/custom-views', require('./routes/customViews'));
+
+// 404 fallback for unknown /api routes
+app.use('/api', (req, res) => res.status(404).json({ error: 'Not found' }));
+
 app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
   } catch (err) {
     console.error('Failed to start:', err);

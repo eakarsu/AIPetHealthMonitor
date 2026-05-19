@@ -12,6 +12,7 @@ import AnalyticsPage from './pages/AnalyticsPage';
 import CalendarPage from './pages/CalendarPage';
 import SettingsPage from './pages/SettingsPage';
 import BacklogToolsPage from './pages/BacklogToolsPage';
+import CustomViewsPage from './pages/CustomViewsPage';
 
 // // === Batch 06 Gaps & Frontend Mounts ===
 import CFAgenticWellnessMonitoringPage from './pages/CFAgenticWellnessMonitoringPage';
@@ -106,6 +107,7 @@ function App() {
           <Route path="/ai-genetic-disease-risk" element={<AIPredictivePage type="genetic" />} />
           <Route path="/ai-health-trend-detect" element={<AIPredictivePage type="trends" />} />
           <Route path="/backlog-tools" element={<BacklogToolsPage />} />
+          <Route path="/custom-views" element={<CustomViewsPage />} />
           <Route path="*" element={<Navigate to="/" />} />
         
           {/* // === Batch 06 Gaps & Frontend Mounts === */}
