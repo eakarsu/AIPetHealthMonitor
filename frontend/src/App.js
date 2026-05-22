@@ -30,6 +30,9 @@ import GapLimitedCommunityFeaturesPeerSupportExperiencePage from './pages/GapLim
 import GapNoNotificationsModuleGrep0Page from './pages/GapNoNotificationsModuleGrep0Page';
 import GapNoAuditLoggingGrep0Page from './pages/GapNoAuditLoggingGrep0Page';
 import GapNoWebhooksForClinicEventsPage from './pages/GapNoWebhooksForClinicEventsPage';
+import CodexCustomVizFeature from './pages/CodexCustomVizFeature';
+import CodexOperationsFeature from './pages/CodexOperationsFeature';
+
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -65,6 +68,9 @@ function App() {
     <Router>
       <Layout user={user} onLogout={handleLogout}>
         <Routes>
+        <Route path="/codex/custom-viz" element={<CodexCustomVizFeature />} />
+        <Route path="/codex/operations" element={<CodexOperationsFeature />} />
+
           <Route path="/" element={<Dashboard />} />
           <Route path="/pets" element={<PetsPage />} />
           <Route path="/health-records" element={<FeaturePage feature="health-records" title="Health Records" icon="🏥" />} />
