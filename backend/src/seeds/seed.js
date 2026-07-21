@@ -5,14 +5,18 @@ const { sequelize, User, Pet, HealthRecord, BehaviorLog, NutritionPlan, Vaccinat
 
 async function seed() {
   try {
+    if (process.env.ALLOW_DESTRUCTIVE_SEED !== 'true') throw new Error('set ALLOW_DESTRUCTIVE_SEED=true to run the destructive demo seed explicitly');
+    const seedEmail = process.env.SEED_USER_EMAIL;
+    const seedPassword = process.env.SEED_USER_PASSWORD;
+    if (!seedEmail || !seedPassword) throw new Error('SEED_USER_EMAIL and SEED_USER_PASSWORD are required');
     await sequelize.authenticate();
     console.log('Connected to database');
     await sequelize.sync({ force: true });
     console.log('Tables created');
 
     // Create demo user
-    const password = await bcrypt.hash('password123', 10);
-    const user = await User.create({ email: 'demo@petmonitor.com', password, name: 'Demo User', plan: 'premium' });
+    const password = await bcrypt.hash(seedPassword, 10);
+    const user = await User.create({ email: seedEmail, password, name: 'Demo User', role: 'pet_owner', plan: 'premium' });
     console.log('User created');
 
     // Create 15 Pets
@@ -314,7 +318,7 @@ async function seed() {
     console.log('15 Health Reports created');
 
     console.log('\n✅ Database seeded successfully!');
-    console.log('Login: demo@petmonitor.com / password123');
+    console.log(`Seed user created for ${seedEmail}`);
     process.exit(0);
   } catch (err) {
     console.error('Seed error:', err);

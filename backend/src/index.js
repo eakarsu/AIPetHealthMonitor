@@ -53,12 +53,13 @@ app.use('/api/socialization', createCrudRouter(SocializationLog));
 app.use('/api/supplies', createCrudRouter(PetSupply));
 app.use('/api/emergency-contacts', require('./routes/emergency'));
 app.use('/api/ai', require('./routes/ai'));
+const auth = require('./middleware/auth');
+app.use('/api/pet-care-workflows', auth, require('./routes/petCareWorkflow'));
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'ok', timestamp: new Date() }));
 
 // Analytics endpoint
-const auth = require('./middleware/auth');
 const { Pet } = require('./models');
 
 app.get('/api/analytics/summary', auth, async (req, res) => {
@@ -245,13 +246,15 @@ app.put('/api/auth/password', auth, async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
+app.use(/^\/api\/(?:cf-|gap-)/, auth, (req, res) => res.status(503).json({ error: 'Generated feature route is quarantined pending validated implementation' }));
+
 async function start() {
   try {
     await sequelize.authenticate();
     console.log('Database connected');
-    await sequelize.sync({ alter: true });
-    console.log('Tables synced');
-    
+    const [schemaCheck] = await sequelize.query("SELECT to_regclass('public.pet_care_cases') AS relation");
+    if (!schemaCheck[0]?.relation) throw new Error('database migrations are required; pet_care_cases is missing');
+
 // === Custom Feature Mounts (batch_06) ===
 app.use('/api/cf-agentic-wellness-monitoring', require('./routes/customFeat01_AgenticWellnessMonitoring'));
 app.use('/api/cf-photo-based-health-screening', require('./routes/customFeat02_PhotoBasedHealthScreening'));
