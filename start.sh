@@ -108,7 +108,13 @@ trap cleanup EXIT INT TERM
 
 (cd backend && npm start) &
 BACKEND_PID=$!
-(cd frontend && BROWSER=none PORT="$FRONTEND_PORT" npm start) &
+frontend_api_url="${REACT_APP_API_URL:-http://127.0.0.1:$BACKEND_PORT}"
+frontend_api_url="${frontend_api_url%/}"
+case "$frontend_api_url" in
+  */api) ;;
+  *) frontend_api_url="$frontend_api_url/api" ;;
+esac
+(cd frontend && REACT_APP_API_URL="$frontend_api_url" BROWSER=none PORT="$FRONTEND_PORT" npm start) &
 FRONTEND_PID=$!
 
 while kill -0 "$BACKEND_PID" 2>/dev/null && kill -0 "$FRONTEND_PID" 2>/dev/null; do
