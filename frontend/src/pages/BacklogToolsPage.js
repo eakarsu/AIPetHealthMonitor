@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import AIReport from '../components/AIReport';
 import {
   aiVetCostNegotiate, aiAgenticWellness, aiEmergencyTriage, aiPhotoRegression,
   aiVetClinicStatus, aiPharmacyStatus, aiWearableStatus,
@@ -17,7 +18,15 @@ const TABS = [
 
 function Pre({ data }) {
   if (data === null || data === undefined) return null;
-  return <pre style={{ background: '#0f172a', color: '#a7f3d0', padding: 14, borderRadius: 8, overflow: 'auto', fontSize: 12, maxHeight: 500 }}>{typeof data === 'string' ? data : JSON.stringify(data, null, 2)}</pre>;
+  return <AIReport response={data} title="Analysis details" />;
+}
+
+function Presets({ apply, disabled, needsPhoto = false }) {
+  return <div className="ai-actions" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 12 }}>
+    {['Routine review', 'Follow-up case', 'Detailed review'].map((label, index) =>
+      <button key={label} type="button" style={btnSecondary} disabled={disabled} onClick={() => apply(index)}>{label}</button>)}
+    {needsPhoto && <small>Choose a real photo before analysis; presets keep any selected file and pet.</small>}
+  </div>;
 }
 
 function Err({ msg, payload }) {
@@ -49,6 +58,14 @@ function CostNegotiate() {
   return (
     <div style={card}>
       <h3>Vet Cost Negotiation</h3>
+      <Presets disabled={loading} apply={index => {
+        const samples = [
+          ['Dental cleaning with possible extractions', '850', 'Bad breath and mild gum redness', 'San Francisco, CA'],
+          ['Routine spay estimate', '620', 'Healthy young dog; preoperative blood work requested', 'Austin, TX'],
+          ['Senior cat ultrasound', '1100', 'Reduced appetite and intermittent vomiting', 'Denver, CO'],
+        ];
+        [setProcedure, setPrice, setSymptoms, setRegion].forEach((set, field) => set(samples[index][field]));
+      }} />
       <input style={{ width: '100%', padding: 8, marginBottom: 8 }} placeholder="Procedure" value={procedure} onChange={(e) => setProcedure(e.target.value)} />
       <input style={{ width: '100%', padding: 8, marginBottom: 8 }} placeholder="Quoted price" value={price} onChange={(e) => setPrice(e.target.value)} />
       <input style={{ width: '100%', padding: 8, marginBottom: 8 }} placeholder="Symptoms" value={symptoms} onChange={(e) => setSymptoms(e.target.value)} />
@@ -75,6 +92,8 @@ function AgenticWellness() {
   return (
     <div style={card}>
       <h3>Agentic Wellness Monitor</h3>
+      <Presets disabled={loading} apply={index => setDays(['7', '14', '30'][index])} />
+      {!petId && <p>Select an existing pet before analysis.</p>}
       <select style={{ width: '100%', padding: 8, marginBottom: 8 }} value={petId} onChange={(e) => setPetId(e.target.value)}>
         <option value="">Select pet…</option>
         {pets.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
@@ -106,13 +125,26 @@ function EmergencyTriage() {
   return (
     <div style={card}>
       <h3>Emergency Triage (advisory only)</h3>
+      <Presets disabled={loading} apply={index => {
+        setSituation([
+          'Dog vomited twice this morning but remains alert and drinking water.',
+          'Cat has been hiding and has eaten very little since yesterday.',
+          'Dog is panting heavily after resting indoors for 20 minutes.',
+        ][index]);
+        setVitals([
+          '{"temperature_F":102.1,"heart_rate_bpm":110}',
+          '{"temperature_F":101.5,"heart_rate_bpm":160}',
+          '{"temperature_F":103.0,"heart_rate_bpm":145}',
+        ][index]);
+      }} />
+      {!petId && <p>Select an existing pet before analysis.</p>}
       <select style={{ width: '100%', padding: 8, marginBottom: 8 }} value={petId} onChange={(e) => setPetId(e.target.value)}>
         <option value="">Select pet…</option>
         {pets.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
       </select>
       <textarea style={{ width: '100%', padding: 8, marginBottom: 8, minHeight: 80 }} placeholder="Situation" value={situation} onChange={(e) => setSituation(e.target.value)} />
       <textarea style={{ width: '100%', padding: 8, marginBottom: 8, minHeight: 60, fontFamily: 'monospace' }} placeholder="Vitals JSON" value={vitals} onChange={(e) => setVitals(e.target.value)} />
-      <button style={btn} onClick={run} disabled={loading}>{loading ? 'Triaging...' : 'Get Triage'}</button>
+      <button style={btn} onClick={run} disabled={loading || !petId}>{loading ? 'Triaging...' : 'Get Triage'}</button>
       <Err msg={err} payload={errPayload} />
       <Pre data={out} />
     </div>
@@ -144,6 +176,14 @@ function PhotoRegression() {
   return (
     <div style={card}>
       <h3>Photo Regression Analysis</h3>
+      <Presets disabled={loading} needsPhoto apply={index => {
+        setBodyPart(['left ear', 'right front paw', 'lower abdomen'][index]);
+        setPrior([
+          'Mild redness noticed two weeks ago; no prior photo comparison available.',
+          'Slight swelling after a walk last week; monitor visible changes.',
+          'Small patch of irritated skin seen three days ago; compare with current photo.',
+        ][index]);
+      }} />
       <select style={{ width: '100%', padding: 8, marginBottom: 8 }} value={petId} onChange={(e) => setPetId(e.target.value)}>
         <option value="">Select pet (optional)…</option>
         {pets.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}

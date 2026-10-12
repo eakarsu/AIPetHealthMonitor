@@ -25,9 +25,15 @@ function Login({ onLogin }) {
   };
 
   const fillDemo = () => {
-    setEmail(process.env.REACT_APP_DEMO_EMAIL || '');
-    setPassword(process.env.REACT_APP_DEMO_PASSWORD || '');
-    setName('Demo User');
+    const demoEmail = process.env.REACT_APP_DEMO_EMAIL;
+    const demoPassword = process.env.REACT_APP_DEMO_PASSWORD;
+    if (process.env.REACT_APP_ENABLE_DEMO_CREDENTIAL_AUTOFILL !== 'true' || !demoEmail || !demoPassword) {
+      setError('Demo credentials are not configured for this app. Ask the administrator for access.');
+      return;
+    }
+    setEmail(demoEmail);
+    setPassword(demoPassword);
+    setError('');
     setIsRegister(false);
   };
 
@@ -62,8 +68,8 @@ function Login({ onLogin }) {
           </button>
         </form>
 
-        <button onClick={fillDemo} className="btn demo-btn btn-full">
-          Auto Fill Demo Credentials
+        <button type="button" onClick={fillDemo} className="btn demo-btn btn-full">
+          Fill Demo Credentials
         </button>
 
         <div style={{ textAlign: 'center', marginTop: 20 }}>

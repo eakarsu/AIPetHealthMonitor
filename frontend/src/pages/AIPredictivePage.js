@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getPets } from '../services/api';
 import Toast from '../components/Toast';
+import AIReport from '../components/AIReport';
 
 const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
 
@@ -85,6 +86,7 @@ function AIPredictivePage({ type }) {
           </button>
         ))}
       </div>
+      {!selectedPet && <p>Select an existing pet to use this analysis. Add a pet first if none are available.</p>}
 
       {selectedPet && (
         <div style={{ display: 'grid', gridTemplateColumns: '400px 1fr', gap: 24, alignItems: 'start' }}>
@@ -128,7 +130,7 @@ function AIPredictivePage({ type }) {
                     <div className="error-msg">{result.error}</div>
                   ) : (
                     <div className="ai-response">
-                      <div className="ai-response-content" dangerouslySetInnerHTML={{ __html: formatAIContent(result.content || JSON.stringify(result.parsed || result, null, 2)) }} />
+                      <AIReport response={result} title={cfg.title} />
                       {result.usage && (
                         <div className="ai-response-meta">
                           <span>Tokens: {result.usage.total_tokens?.toLocaleString()}</span>

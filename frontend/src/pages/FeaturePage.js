@@ -6,6 +6,7 @@ import { getPets, healthRecordsApi, behaviorsApi, nutritionApi, vaccinationsApi,
   documentsApi, expensesApi, feedingApi, labResultsApi, socializationApi,
   suppliesApi, aiInterpretLabResult } from '../services/api';
 import Toast from '../components/Toast';
+import AIReport from '../components/AIReport';
 
 const apiMap = {
   'health-records': healthRecordsApi,
@@ -562,27 +563,19 @@ function FeaturePage({ feature, title, icon }) {
                   <div className="detail-value">
                     {['severity', 'riskLevel', 'intensity', 'status', 'quality', 'reaction'].includes(f.name)
                       ? <span className={`badge badge-${selected[f.name]}`}>{selected[f.name] || '-'}</span>
-                      : formatValue(selected[f.name])}
+                      : feature === 'health-reports' && f.name === 'details' && selected.details ? <AIReport response={selected.details} title="Health report details" /> : formatValue(selected[f.name])}
                   </div>
                 </div>
               ))}
               {/* Show AI fields if they exist */}
               {selected.aiDiagnosis && (
                 <div className="ai-response" style={{ marginTop: 16 }}>
-                  <div className="ai-response-content" dangerouslySetInnerHTML={{ __html: formatAIContent(selected.aiDiagnosis) }} />
-                </div>
-              )}
-              {selected.details && feature === 'health-reports' && (
-                <div className="ai-response" style={{ marginTop: 16 }}>
-                  <div className="ai-response-content" dangerouslySetInnerHTML={{ __html: formatAIContent(selected.details) }} />
+                  <AIReport response={selected.aiDiagnosis} title="AI diagnosis" />
                 </div>
               )}
               {selected.aiInterpretation && feature === 'lab-results' && (
                 <div className="ai-response" style={{ marginTop: 16 }}>
-                  <div style={{ fontWeight: 600, marginBottom: 8, color: 'var(--primary)' }}>AI Interpretation</div>
-                  <div className="ai-response-content" dangerouslySetInnerHTML={{ __html: formatAIContent(
-                    (() => { try { const p = JSON.parse(selected.aiInterpretation); return p.overall_assessment || JSON.stringify(p, null, 2); } catch(e) { return selected.aiInterpretation; } })()
-                  ) }} />
+                  <AIReport response={selected.aiInterpretation} title="AI interpretation" />
                 </div>
               )}
             </div>

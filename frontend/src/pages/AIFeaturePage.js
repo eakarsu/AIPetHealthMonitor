@@ -1,7 +1,25 @@
+
+import FullAIExamples, { useFullAIExamples } from "../components/FullAIExamples.jsx";
 import React, { useState, useEffect } from 'react';
 import { getPets, aiSymptomCheck, aiSymptomCheckPhoto, aiDietRecommendation, aiBehaviorAnalysis,
   aiHealthReport, aiEmergencyAdvice, aiInsuranceAdvice, aiFindSpecialists, aiVaccinationSchedule } from '../services/api';
 import Toast from '../components/Toast';
+import AIReport from '../components/AIReport';
+
+const fieldExamples = {
+  symptoms: ['Limping on the right front paw since yesterday; still eating and drinking.', 'Occasional vomiting after meals for two days; energy slightly reduced.', 'Scratching both ears for a week with visible redness and head shaking.'],
+  duration: ['1 day', '2 days', '1 week'],
+  currentDiet: ['Two measured meals of adult dry food daily, with water available.', 'Senior wet food twice daily and small training treats.', 'Puppy formula three times daily with occasional plain pumpkin.'],
+  concerns: ['Gradual weight gain despite regular walks.', 'Sensitive digestion after a recent food change.', 'Picky eating and inconsistent appetite.'],
+  allergies: ['No confirmed allergies; owner has noticed itching after some treats.', 'Chicken sensitivity suspected but not diagnosed.', 'No known food allergies.'],
+  behavior: ['Barks and paces when the owner leaves the home.', 'Hides during thunderstorms and refuses treats.', 'Jumps on visitors and struggles to settle.'],
+  context: ['Begins within minutes of departure and stops after the owner returns.', 'Most noticeable during loud rain and thunder.', 'Occurs when guests enter through the front door.'],
+  frequency: ['Most weekdays', 'During storms, about twice a month', 'At nearly every visit'],
+  situation: ['Dog may have eaten a small piece of chocolate 20 minutes ago; amount is uncertain.', 'Cat has vomited repeatedly today and is unusually quiet.', 'Dog is breathing rapidly after exercise and has not settled after rest.'],
+  budget: ['$40–60 per month', '$75–100 per month', '$25–40 per month'],
+  condition: ['Recurring ear infections needing a veterinary dermatology consultation.', 'New heart murmur noted at a routine examination.', 'Persistent hind-leg limp despite rest.'],
+  location: ['Austin, TX', 'Denver, CO', 'Portland, OR'],
+};
 
 const aiApis = {
   'symptom-check': aiSymptomCheck,
@@ -170,6 +188,8 @@ function renderVaccinationScheduleResult(parsed) {
 }
 
 function AIFeaturePage({ type, title, icon }) {
+  const fullAIExamples = useFullAIExamples();
+
   const [pets, setPets] = useState([]);
   const [selectedPet, setSelectedPet] = useState(null);
   const [formData, setFormData] = useState({});
@@ -227,6 +247,7 @@ function AIFeaturePage({ type, title, icon }) {
           </button>
         ))}
       </div>
+      {!selectedPet && <p>Select an existing pet to use this analysis. Add a pet first if none are available.</p>}
 
       {selectedPet && (
         <div style={{ display: 'grid', gridTemplateColumns: formFields.length > 0 ? '400px 1fr' : '1fr', gap: 24, alignItems: 'start' }}>
@@ -247,7 +268,7 @@ function AIFeaturePage({ type, title, icon }) {
                 </div>
               </div>
 
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} data-full-ai-workspace="AIFeaturePage"><FullAIExamples controller={fullAIExamples} disabled={Boolean(loading)} />
                 {formFields.map(f => (
                   <div className="form-group" key={f.name}>
                     <label>{f.label} {f.required && '*'}</label>
@@ -257,10 +278,10 @@ function AIFeaturePage({ type, title, icon }) {
                         onChange={e => setFormData({ ...formData, [f.name]: e.target.value })}
                         placeholder={f.placeholder}
                         required={f.required}
-                        rows={3}
+                        rows={3} data-full-ai-field={fullAIExamples.bind({ current: formData[f.name] || '', change: e => setFormData({ ...formData, [f.name]: e.target.value }), label: f.label, sample: fieldExamples[f.name], manual: false, json: false }, "p1-12300", [(typeof f === 'object' ? f?.key ?? f?.name ?? f?.id ?? '' : f),f.name].join(":"))}
                       />
                     ) : f.type === 'select' ? (
-                      <select value={formData[f.name] || ''} onChange={e => setFormData({ ...formData, [f.name]: e.target.value })}>
+                      <select value={formData[f.name] || ''} onChange={e => setFormData({ ...formData, [f.name]: e.target.value })} data-full-ai-field={fullAIExamples.bind({ current: formData[f.name] || '', change: e => setFormData({ ...formData, [f.name]: e.target.value }), label: f.label, manual: false, json: false }, "p1-12686", [(typeof f === 'object' ? f?.key ?? f?.name ?? f?.id ?? '' : f),f.name].join(":"))}>
                         <option value="">Select...</option>
                         {f.options.map(o => <option key={o} value={o}>{o}</option>)}
                       </select>
@@ -270,7 +291,7 @@ function AIFeaturePage({ type, title, icon }) {
                         value={formData[f.name] || ''}
                         onChange={e => setFormData({ ...formData, [f.name]: e.target.value })}
                         placeholder={f.placeholder}
-                        required={f.required}
+                        required={f.required} data-full-ai-field={fullAIExamples.bind({ current: formData[f.name] || '', change: e => setFormData({ ...formData, [f.name]: e.target.value }), label: f.label, sample: fieldExamples[f.name], manual: false, json: false }, "p1-13022", [(typeof f === 'object' ? f?.key ?? f?.name ?? f?.id ?? '' : f),f.name].join(":"))}
                       />
                     )}
                   </div>
@@ -345,9 +366,7 @@ function AIFeaturePage({ type, title, icon }) {
                 ) : (
                   <div style={{ padding: 24 }}>
                     <div className="ai-response">
-                      {type === 'find-specialists' && result.parsed ? renderSpecialistResult(result.parsed) :
-                       type === 'vaccination-schedule' && result.parsed ? renderVaccinationScheduleResult(result.parsed) :
-                      <div className="ai-response-content" dangerouslySetInnerHTML={{ __html: formatAIContent(result.content) }} />}
+                      <AIReport response={result} title={title} />
                       {result.usage && (
                         <div className="ai-response-meta">
                           <span>Tokens: {result.usage.total_tokens?.toLocaleString()}</span>
@@ -382,45 +401,8 @@ function AIFeaturePage({ type, title, icon }) {
                   <h2>📷 Photo Analysis Results</h2>
                 </div>
                 <div style={{ padding: 24 }}>
-                  {photoResult.parsed && !photoResult.parsed.raw ? (
-                    <div>
-                      {photoResult.parsed.urgency_score !== undefined && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-                          <span style={{ fontWeight: 700 }}>Urgency:</span>
-                          <span className={`badge badge-${photoResult.parsed.urgency_score >= 7 ? 'severe' : photoResult.parsed.urgency_score >= 4 ? 'moderate' : 'low'}`}>
-                            {photoResult.parsed.urgency_score}/10
-                          </span>
-                          <span>{photoResult.parsed.see_vet_urgency}</span>
-                        </div>
-                      )}
-                      {photoResult.parsed.symptoms_observed?.length > 0 && (
-                        <div style={{ marginBottom: 12 }}>
-                          <strong>Symptoms Observed:</strong>
-                          <ul style={{ marginTop: 6, paddingLeft: 20 }}>
-                            {photoResult.parsed.symptoms_observed.map((s, i) => <li key={i}>{s}</li>)}
-                          </ul>
-                        </div>
-                      )}
-                      {photoResult.parsed.possible_conditions?.length > 0 && (
-                        <div style={{ marginBottom: 12 }}>
-                          <strong>Possible Conditions:</strong>
-                          <ul style={{ marginTop: 6, paddingLeft: 20 }}>
-                            {photoResult.parsed.possible_conditions.map((c, i) => <li key={i}>{c}</li>)}
-                          </ul>
-                        </div>
-                      )}
-                      {photoResult.parsed.immediate_actions?.length > 0 && (
-                        <div style={{ marginBottom: 12 }}>
-                          <strong>Immediate Actions:</strong>
-                          <ul style={{ marginTop: 6, paddingLeft: 20 }}>
-                            {photoResult.parsed.immediate_actions.map((a, i) => <li key={i}>{a}</li>)}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="ai-response-content" dangerouslySetInnerHTML={{ __html: formatAIContent(photoResult.content) }} />
-                  )}
+                  <AIReport response={photoResult} title="Photo symptom analysis" />
+
                 </div>
               </div>
             )}

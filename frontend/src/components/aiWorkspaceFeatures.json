@@ -1,0 +1,302 @@
+[
+  {
+    "name": "CFAgenticWellnessMonitoringPage",
+    "id": "cf-agentic-wellness-monitoring",
+    "title": "Agentic wellness monitoring",
+    "description": "Prepare a professional advisory report for agentic wellness monitoring using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": [
+      {
+        "label": "Scenario",
+        "value": "Run Agentic wellness monitoring for a realistic customer case.\nContext: A mid-market operations team is under deadline pressure and needs an actionable recommendation.\nGoal: identify the best next steps, risks, assumptions, and expected business impact.\nOutput format: concise summary, prioritized actions, confidence level, and follow-up questions."
+      },
+      {
+        "label": "Data sample",
+        "value": "Analyze this Agentic wellness monitoring data sample.\nRecords:\n- Item A: high priority, owner unassigned, due this week, customer impact high\n- Item B: medium priority, owner assigned, blocked by missing information\n- Item C: low priority, recurring pattern, possible automation candidate\nReturn structured findings, anomalies, recommendations, and a short implementation plan."
+      },
+      {
+        "label": "Executive review",
+        "value": "Prepare an executive review for Agentic wellness monitoring.\nAudience: business owner and operations manager.\nInclude: what happened, why it matters, financial or operational impact, risks, and three decisions needed today.\nTone: professional, direct, and implementation-focused."
+      }
+    ]
+  },
+  {
+    "name": "CFBreedAgeSpecificCareAutomationPage",
+    "id": "cf-breed-age-specific-care-automation",
+    "title": "Breed/age-specific care automation",
+    "description": "Prepare a professional advisory report for breed/age-specific care automation using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": [
+      {
+        "label": "Scenario",
+        "value": "Run Breed/age-specific care automation for a realistic customer case.\nContext: A mid-market operations team is under deadline pressure and needs an actionable recommendation.\nGoal: identify the best next steps, risks, assumptions, and expected business impact.\nOutput format: concise summary, prioritized actions, confidence level, and follow-up questions."
+      },
+      {
+        "label": "Data sample",
+        "value": "Analyze this Breed/age-specific care automation data sample.\nRecords:\n- Item A: high priority, owner unassigned, due this week, customer impact high\n- Item B: medium priority, owner assigned, blocked by missing information\n- Item C: low priority, recurring pattern, possible automation candidate\nReturn structured findings, anomalies, recommendations, and a short implementation plan."
+      },
+      {
+        "label": "Executive review",
+        "value": "Prepare an executive review for Breed/age-specific care automation.\nAudience: business owner and operations manager.\nInclude: what happened, why it matters, financial or operational impact, risks, and three decisions needed today.\nTone: professional, direct, and implementation-focused."
+      }
+    ]
+  },
+  {
+    "name": "CFEmergencyDecisionSupportPage",
+    "id": "cf-emergency-decision-support",
+    "title": "Emergency decision support",
+    "description": "Prepare a professional advisory report for emergency decision support using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": [
+      {
+        "label": "Scenario",
+        "value": "Run Emergency decision support for a realistic customer case.\nContext: A mid-market operations team is under deadline pressure and needs an actionable recommendation.\nGoal: identify the best next steps, risks, assumptions, and expected business impact.\nOutput format: concise summary, prioritized actions, confidence level, and follow-up questions."
+      },
+      {
+        "label": "Data sample",
+        "value": "Analyze this Emergency decision support data sample.\nRecords:\n- Item A: high priority, owner unassigned, due this week, customer impact high\n- Item B: medium priority, owner assigned, blocked by missing information\n- Item C: low priority, recurring pattern, possible automation candidate\nReturn structured findings, anomalies, recommendations, and a short implementation plan."
+      },
+      {
+        "label": "Executive review",
+        "value": "Prepare an executive review for Emergency decision support.\nAudience: business owner and operations manager.\nInclude: what happened, why it matters, financial or operational impact, risks, and three decisions needed today.\nTone: professional, direct, and implementation-focused."
+      }
+    ]
+  },
+  {
+    "name": "CFPhotoBasedHealthScreeningPage",
+    "id": "cf-photo-based-health-screening",
+    "title": "Photo-based health screening",
+    "description": "Prepare a professional advisory report for photo-based health screening using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": [
+      {
+        "label": "Scenario",
+        "value": "Run Photo-based health screening for a realistic customer case.\nContext: A mid-market operations team is under deadline pressure and needs an actionable recommendation.\nGoal: identify the best next steps, risks, assumptions, and expected business impact.\nOutput format: concise summary, prioritized actions, confidence level, and follow-up questions."
+      },
+      {
+        "label": "Data sample",
+        "value": "Analyze this Photo-based health screening data sample.\nRecords:\n- Item A: high priority, owner unassigned, due this week, customer impact high\n- Item B: medium priority, owner assigned, blocked by missing information\n- Item C: low priority, recurring pattern, possible automation candidate\nReturn structured findings, anomalies, recommendations, and a short implementation plan."
+      },
+      {
+        "label": "Executive review",
+        "value": "Prepare an executive review for Photo-based health screening.\nAudience: business owner and operations manager.\nInclude: what happened, why it matters, financial or operational impact, risks, and three decisions needed today.\nTone: professional, direct, and implementation-focused."
+      }
+    ]
+  },
+  {
+    "name": "CFVeterinaryCostNegotiationPage",
+    "id": "cf-veterinary-cost-negotiation",
+    "title": "Veterinary cost negotiation",
+    "description": "Prepare a professional advisory report for veterinary cost negotiation using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": [
+      {
+        "label": "Scenario",
+        "value": "Run Veterinary cost negotiation for a realistic customer case.\nContext: A mid-market operations team is under deadline pressure and needs an actionable recommendation.\nGoal: identify the best next steps, risks, assumptions, and expected business impact.\nOutput format: concise summary, prioritized actions, confidence level, and follow-up questions."
+      },
+      {
+        "label": "Data sample",
+        "value": "Analyze this Veterinary cost negotiation data sample.\nRecords:\n- Item A: high priority, owner unassigned, due this week, customer impact high\n- Item B: medium priority, owner assigned, blocked by missing information\n- Item C: low priority, recurring pattern, possible automation candidate\nReturn structured findings, anomalies, recommendations, and a short implementation plan."
+      },
+      {
+        "label": "Executive review",
+        "value": "Prepare an executive review for Veterinary cost negotiation.\nAudience: business owner and operations manager.\nInclude: what happened, why it matters, financial or operational impact, risks, and three decisions needed today.\nTone: professional, direct, and implementation-focused."
+      }
+    ]
+  },
+  {
+    "name": "GapBackendCollapsesEverythingIntoCrudJsPage",
+    "id": "gap-backend-collapses-everything-into-crud-js",
+    "title": "Backend collapses everything into crud.js",
+    "description": "Prepare a professional advisory report for backend collapses everything into crud.js using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": [
+      {
+        "label": "Scenario",
+        "value": "Run Backend collapses everything into crud.js for a realistic customer case.\nContext: A mid-market operations team is under deadline pressure and needs an actionable recommendation.\nGoal: identify the best next steps, risks, assumptions, and expected business impact.\nOutput format: concise summary, prioritized actions, confidence level, and follow-up questions."
+      },
+      {
+        "label": "Data sample",
+        "value": "Analyze this Backend collapses everything into crud.js data sample.\nRecords:\n- Item A: high priority, owner unassigned, due this week, customer impact high\n- Item B: medium priority, owner assigned, blocked by missing information\n- Item C: low priority, recurring pattern, possible automation candidate\nReturn structured findings, anomalies, recommendations, and a short implementation plan."
+      },
+      {
+        "label": "Executive review",
+        "value": "Prepare an executive review for Backend collapses everything into crud.js.\nAudience: business owner and operations manager.\nInclude: what happened, why it matters, financial or operational impact, risks, and three decisions needed today.\nTone: professional, direct, and implementation-focused."
+      }
+    ]
+  },
+  {
+    "name": "GapLimitedCommunityFeaturesPeerSupportExperiencePage",
+    "id": "gap-limited-community-features-peer-support-experience",
+    "title": "Limited community features (peer support, experience sharing)",
+    "description": "Prepare a professional advisory report for limited community features (peer support, experience sharing) using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": [
+      {
+        "label": "Scenario",
+        "value": "Run Limited community features (peer support, experience sharing) for a realistic customer case.\nContext: A mid-market operations team is under deadline pressure and needs an actionable recommendation.\nGoal: identify the best next steps, risks, assumptions, and expected business impact.\nOutput format: concise summary, prioritized actions, confidence level, and follow-up questions."
+      },
+      {
+        "label": "Data sample",
+        "value": "Analyze this Limited community features (peer support, experience sharing) data sample.\nRecords:\n- Item A: high priority, owner unassigned, due this week, customer impact high\n- Item B: medium priority, owner assigned, blocked by missing information\n- Item C: low priority, recurring pattern, possible automation candidate\nReturn structured findings, anomalies, recommendations, and a short implementation plan."
+      },
+      {
+        "label": "Executive review",
+        "value": "Prepare an executive review for Limited community features (peer support, experience sharing).\nAudience: business owner and operations manager.\nInclude: what happened, why it matters, financial or operational impact, risks, and three decisions needed today.\nTone: professional, direct, and implementation-focused."
+      }
+    ]
+  },
+  {
+    "name": "GapMedicalHistoryWithoutHealthPage",
+    "id": "gap-medical-history-without-health",
+    "title": "Medical history without '/health",
+    "description": "Prepare a professional advisory report for medical history without '/health using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": [
+      {
+        "label": "Scenario",
+        "value": "Run Medical history without '/health for a realistic customer case.\nContext: A mid-market operations team is under deadline pressure and needs an actionable recommendation.\nGoal: identify the best next steps, risks, assumptions, and expected business impact.\nOutput format: concise summary, prioritized actions, confidence level, and follow-up questions."
+      },
+      {
+        "label": "Data sample",
+        "value": "Analyze this Medical history without '/health data sample.\nRecords:\n- Item A: high priority, owner unassigned, due this week, customer impact high\n- Item B: medium priority, owner assigned, blocked by missing information\n- Item C: low priority, recurring pattern, possible automation candidate\nReturn structured findings, anomalies, recommendations, and a short implementation plan."
+      },
+      {
+        "label": "Executive review",
+        "value": "Prepare an executive review for Medical history without '/health.\nAudience: business owner and operations manager.\nInclude: what happened, why it matters, financial or operational impact, risks, and three decisions needed today.\nTone: professional, direct, and implementation-focused."
+      }
+    ]
+  },
+  {
+    "name": "GapNoAuditLoggingGrep0Page",
+    "id": "gap-no-audit-logging-grep-0",
+    "title": "No audit logging (grep 0)",
+    "description": "Prepare a professional advisory report for no audit logging (grep 0) using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": [
+      {
+        "label": "Scenario",
+        "value": "Run No audit logging (grep 0) for a realistic customer case.\nContext: A mid-market operations team is under deadline pressure and needs an actionable recommendation.\nGoal: identify the best next steps, risks, assumptions, and expected business impact.\nOutput format: concise summary, prioritized actions, confidence level, and follow-up questions."
+      },
+      {
+        "label": "Data sample",
+        "value": "Analyze this No audit logging (grep 0) data sample.\nRecords:\n- Item A: high priority, owner unassigned, due this week, customer impact high\n- Item B: medium priority, owner assigned, blocked by missing information\n- Item C: low priority, recurring pattern, possible automation candidate\nReturn structured findings, anomalies, recommendations, and a short implementation plan."
+      },
+      {
+        "label": "Executive review",
+        "value": "Prepare an executive review for No audit logging (grep 0).\nAudience: business owner and operations manager.\nInclude: what happened, why it matters, financial or operational impact, risks, and three decisions needed today.\nTone: professional, direct, and implementation-focused."
+      }
+    ]
+  },
+  {
+    "name": "GapNoBreedDatabaseBreedPage",
+    "id": "gap-no-breed-database-breed",
+    "title": "No breed database (breed",
+    "description": "Prepare a professional advisory report for no breed database (breed using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": [
+      {
+        "label": "Scenario",
+        "value": "Run No breed database (breed for a realistic customer case.\nContext: A mid-market operations team is under deadline pressure and needs an actionable recommendation.\nGoal: identify the best next steps, risks, assumptions, and expected business impact.\nOutput format: concise summary, prioritized actions, confidence level, and follow-up questions."
+      },
+      {
+        "label": "Data sample",
+        "value": "Analyze this No breed database (breed data sample.\nRecords:\n- Item A: high priority, owner unassigned, due this week, customer impact high\n- Item B: medium priority, owner assigned, blocked by missing information\n- Item C: low priority, recurring pattern, possible automation candidate\nReturn structured findings, anomalies, recommendations, and a short implementation plan."
+      },
+      {
+        "label": "Executive review",
+        "value": "Prepare an executive review for No breed database (breed.\nAudience: business owner and operations manager.\nInclude: what happened, why it matters, financial or operational impact, risks, and three decisions needed today.\nTone: professional, direct, and implementation-focused."
+      }
+    ]
+  },
+  {
+    "name": "GapNoNotificationsModuleGrep0Page",
+    "id": "gap-no-notifications-module-grep-0",
+    "title": "No notifications module (grep 0)",
+    "description": "Prepare a professional advisory report for no notifications module (grep 0) using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": [
+      {
+        "label": "Scenario",
+        "value": "Run No notifications module (grep 0) for a realistic customer case.\nContext: A mid-market operations team is under deadline pressure and needs an actionable recommendation.\nGoal: identify the best next steps, risks, assumptions, and expected business impact.\nOutput format: concise summary, prioritized actions, confidence level, and follow-up questions."
+      },
+      {
+        "label": "Data sample",
+        "value": "Analyze this No notifications module (grep 0) data sample.\nRecords:\n- Item A: high priority, owner unassigned, due this week, customer impact high\n- Item B: medium priority, owner assigned, blocked by missing information\n- Item C: low priority, recurring pattern, possible automation candidate\nReturn structured findings, anomalies, recommendations, and a short implementation plan."
+      },
+      {
+        "label": "Executive review",
+        "value": "Prepare an executive review for No notifications module (grep 0).\nAudience: business owner and operations manager.\nInclude: what happened, why it matters, financial or operational impact, risks, and three decisions needed today.\nTone: professional, direct, and implementation-focused."
+      }
+    ]
+  },
+  {
+    "name": "GapNoPharmacyIntegrationMedicationRefillsCostTrPage",
+    "id": "gap-no-pharmacy-integration-medication-refills-cost-tr",
+    "title": "No pharmacy integration (medication refills, cost tracking)",
+    "description": "Prepare a professional advisory report for no pharmacy integration (medication refills, cost tracking) using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": [
+      {
+        "label": "Scenario",
+        "value": "Run No pharmacy integration (medication refills, cost tracking) for a realistic customer case.\nContext: A mid-market operations team is under deadline pressure and needs an actionable recommendation.\nGoal: identify the best next steps, risks, assumptions, and expected business impact.\nOutput format: concise summary, prioritized actions, confidence level, and follow-up questions."
+      },
+      {
+        "label": "Data sample",
+        "value": "Analyze this No pharmacy integration (medication refills, cost tracking) data sample.\nRecords:\n- Item A: high priority, owner unassigned, due this week, customer impact high\n- Item B: medium priority, owner assigned, blocked by missing information\n- Item C: low priority, recurring pattern, possible automation candidate\nReturn structured findings, anomalies, recommendations, and a short implementation plan."
+      },
+      {
+        "label": "Executive review",
+        "value": "Prepare an executive review for No pharmacy integration (medication refills, cost tracking).\nAudience: business owner and operations manager.\nInclude: what happened, why it matters, financial or operational impact, risks, and three decisions needed today.\nTone: professional, direct, and implementation-focused."
+      }
+    ]
+  },
+  {
+    "name": "GapNoVeterinaryClinicIntegrationMedicalRecordsIPage",
+    "id": "gap-no-veterinary-clinic-integration-medical-records-i",
+    "title": "No veterinary clinic integration (medical records import, appointment booking)",
+    "description": "Prepare a professional advisory report for no veterinary clinic integration (medical records import, appointment booking) using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": [
+      {
+        "label": "Scenario",
+        "value": "Run No veterinary clinic integration (medical records import, appointment booking) for a realistic customer case.\nContext: A mid-market operations team is under deadline pressure and needs an actionable recommendation.\nGoal: identify the best next steps, risks, assumptions, and expected business impact.\nOutput format: concise summary, prioritized actions, confidence level, and follow-up questions."
+      },
+      {
+        "label": "Data sample",
+        "value": "Analyze this No veterinary clinic integration (medical records import, appointment booking) data sample.\nRecords:\n- Item A: high priority, owner unassigned, due this week, customer impact high\n- Item B: medium priority, owner assigned, blocked by missing information\n- Item C: low priority, recurring pattern, possible automation candidate\nReturn structured findings, anomalies, recommendations, and a short implementation plan."
+      },
+      {
+        "label": "Executive review",
+        "value": "Prepare an executive review for No veterinary clinic integration (medical records import, appointment booking).\nAudience: business owner and operations manager.\nInclude: what happened, why it matters, financial or operational impact, risks, and three decisions needed today.\nTone: professional, direct, and implementation-focused."
+      }
+    ]
+  },
+  {
+    "name": "GapNoWebhooksForClinicEventsPage",
+    "id": "gap-no-webhooks-for-clinic-events",
+    "title": "No webhooks for clinic events",
+    "description": "Prepare a professional advisory report for no webhooks for clinic events using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": [
+      {
+        "label": "Scenario",
+        "value": "Run No webhooks for clinic events for a realistic customer case.\nContext: A mid-market operations team is under deadline pressure and needs an actionable recommendation.\nGoal: identify the best next steps, risks, assumptions, and expected business impact.\nOutput format: concise summary, prioritized actions, confidence level, and follow-up questions."
+      },
+      {
+        "label": "Data sample",
+        "value": "Analyze this No webhooks for clinic events data sample.\nRecords:\n- Item A: high priority, owner unassigned, due this week, customer impact high\n- Item B: medium priority, owner assigned, blocked by missing information\n- Item C: low priority, recurring pattern, possible automation candidate\nReturn structured findings, anomalies, recommendations, and a short implementation plan."
+      },
+      {
+        "label": "Executive review",
+        "value": "Prepare an executive review for No webhooks for clinic events.\nAudience: business owner and operations manager.\nInclude: what happened, why it matters, financial or operational impact, risks, and three decisions needed today.\nTone: professional, direct, and implementation-focused."
+      }
+    ]
+  },
+  {
+    "name": "GapPetsWithoutGeneticPage",
+    "id": "gap-pets-without-genetic",
+    "title": "Pets without '/genetic",
+    "description": "Prepare a professional advisory report for pets without '/genetic using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": [
+      {
+        "label": "Scenario",
+        "value": "Run Pets without '/genetic for a realistic customer case.\nContext: A mid-market operations team is under deadline pressure and needs an actionable recommendation.\nGoal: identify the best next steps, risks, assumptions, and expected business impact.\nOutput format: concise summary, prioritized actions, confidence level, and follow-up questions."
+      },
+      {
+        "label": "Data sample",
+        "value": "Analyze this Pets without '/genetic data sample.\nRecords:\n- Item A: high priority, owner unassigned, due this week, customer impact high\n- Item B: medium priority, owner assigned, blocked by missing information\n- Item C: low priority, recurring pattern, possible automation candidate\nReturn structured findings, anomalies, recommendations, and a short implementation plan."
+      },
+      {
+        "label": "Executive review",
+        "value": "Prepare an executive review for Pets without '/genetic.\nAudience: business owner and operations manager.\nInclude: what happened, why it matters, financial or operational impact, risks, and three decisions needed today.\nTone: professional, direct, and implementation-focused."
+      }
+    ]
+  }
+]
