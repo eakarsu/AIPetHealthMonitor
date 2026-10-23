@@ -53,6 +53,7 @@ app.use('/api/socialization', createCrudRouter(SocializationLog));
 app.use('/api/supplies', createCrudRouter(PetSupply));
 app.use('/api/emergency-contacts', require('./routes/emergency'));
 app.use('/api/ai', require('./routes/ai'));
+app.use('/api/tasks', require('./routes/fpTasks'));
 const auth = require('./middleware/auth');
 app.use('/api/pet-care-workflows', auth, require('./routes/petCareWorkflow'));
 

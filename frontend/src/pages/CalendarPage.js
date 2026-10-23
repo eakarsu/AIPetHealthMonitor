@@ -7,6 +7,7 @@ function CalendarPage() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
   const [view, setView] = useState('calendar');
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
     getCalendarEvents()
@@ -184,7 +185,7 @@ function CalendarPage() {
             </thead>
             <tbody>
               {events.sort((a, b) => (a.date || '').localeCompare(b.date || '')).map(evt => (
-                <tr key={evt.id}>
+                <tr key={evt.id} onClick={() => setSelectedEvent(evt)} style={{ cursor: 'pointer' }}>
                   <td><span style={{ padding: '2px 8px', borderRadius: 12, background: evt.color + '20', color: evt.color, fontSize: 12, fontWeight: 600 }}>{evt.type}</span></td>
                   <td>{typeIcons[evt.type]} {evt.title}</td>
                   <td>{evt.pet}</td>
@@ -201,6 +202,29 @@ function CalendarPage() {
               <p>No events found. Add appointments, vaccinations, or other scheduled items to see them here.</p>
             </div>
           )}
+        </div>
+      )}
+      {selectedEvent && (
+        <div className="detail-overlay" onClick={e => e.target === e.currentTarget && setSelectedEvent(null)}>
+          <div className="detail-panel" role="dialog" aria-modal="true">
+            <div className="detail-header">
+              <h2>{selectedEvent.title || 'Event Details'}</h2>
+              <button className="close-btn" onClick={() => setSelectedEvent(null)}>✕</button>
+            </div>
+            <div className="detail-body">
+              {[['Type', selectedEvent.type], ['Event', selectedEvent.title], ['Pet', selectedEvent.pet], ['Date', selectedEvent.date], ['Time', selectedEvent.time], ['Status', selectedEvent.status || 'Upcoming']].map(([k, v]) => (
+                <div className="detail-row" key={k}>
+                  <div className="detail-label">{k}</div>
+                  <div className="detail-value">{v || '-'}</div>
+                </div>
+              ))}
+            </div>
+            <div className="detail-actions">
+              <button className="btn btn-primary btn-sm" onClick={() => setSelectedEvent(null)}>✏️ Edit</button>
+              <button className="btn btn-danger btn-sm" onClick={() => { setEvents(events.filter(e => e.id !== selectedEvent.id)); setSelectedEvent(null); }}>🗑️ Delete</button>
+              <button className="btn btn-secondary btn-sm" onClick={() => setSelectedEvent(null)}>Cancel</button>
+            </div>
+          </div>
         </div>
       )}
     </div>

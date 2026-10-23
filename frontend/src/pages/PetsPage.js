@@ -112,7 +112,7 @@ function PetsPage() {
       {/* Detail Modal */}
       {selected && (
         <div className="detail-overlay" onClick={(e) => e.target === e.currentTarget && setSelected(null)}>
-          <div className="detail-panel">
+          <div className="detail-panel" role="dialog" aria-modal="true">
             <div className="detail-header">
               <h2>{selected.name}</h2>
               <button className="close-btn" onClick={() => setSelected(null)}>✕</button>
@@ -128,6 +128,7 @@ function PetsPage() {
             <div className="detail-actions">
               <button className="btn btn-primary btn-sm" onClick={() => openEdit(selected)}>✏️ Edit</button>
               <button className="btn btn-danger btn-sm" onClick={() => handleDelete(selected.id)}>🗑️ Delete</button>
+              <button className="btn btn-secondary btn-sm" onClick={() => setSelected(null)}>Cancel</button>
             </div>
           </div>
         </div>
@@ -136,7 +137,7 @@ function PetsPage() {
       {/* Form Modal */}
       {showForm && (
         <div className="detail-overlay" onClick={(e) => e.target === e.currentTarget && setShowForm(false)}>
-          <div className="detail-panel">
+          <div className="detail-panel" role="dialog" aria-modal="true">
             <div className="detail-header">
               <h2>{editId ? 'Edit Pet' : 'Add New Pet'}</h2>
               <button className="close-btn" onClick={() => setShowForm(false)}>✕</button>

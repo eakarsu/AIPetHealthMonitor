@@ -7,7 +7,12 @@ router.use(auth);
 
 router.get('/', async (req, res) => {
   try {
-    const pets = await Pet.findAll({ where: { userId: req.user.id }, order: [['createdAt', 'DESC']] });
+    const { Op } = require('sequelize');
+    const q = req.query.q || req.query.search;
+    const where = { userId: req.user.id };
+    if (req.query.species) where.species = req.query.species;
+    if (q) where[Op.or] = [{ name: { [Op.iLike]: `%${q}%` } }, { species: { [Op.iLike]: `%${q}%` } }, { breed: { [Op.iLike]: `%${q}%` } }];
+    const pets = await Pet.findAll({ where, order: [['createdAt', 'DESC']] });
     res.json(pets);
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
